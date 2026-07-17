@@ -1,0 +1,14 @@
+# Mayhem target: python-fitparse ANT/Garmin .FIT file parser (Atheris/libFuzzer harness).
+# The cmd binary is the compiled ELF launcher that drives mayhem/fuzz_reader.py; Atheris
+# instruments the fitparse library so the run records coverage (edges).
+project: savantenvs/python-fitparse
+target: reader-fuzz
+
+cmds:
+  - cmd: /mayhem/fitparse_fuzzer
+    libfuzzer: true
+
+# Seed corpus of representative .FIT files (file:// URIs, per the Mayhemfile schema).
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/reader-fuzz/testsuite
